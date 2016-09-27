@@ -1,0 +1,23 @@
+---
+# tasks file for jenkins
+- name: Download jenkins repository definition
+  get_url: url="http://pkg.jenkins-ci.org/redhat/jenkins.repo" dest="/etc/yum.repos.d/jenkins.repo"
+
+#- name: Install Jenkin repository key
+#  rpm_key: state="present" key="https://jenkins-ci.org/redhat/jenkins-ci.org.key"
+
+- name: Install Jenkins and Java
+  yum: state="present" name="{{ item }}"
+  with_items:
+    - java-1.8.0-openjdk
+    - jenkins
+
+- name: Enable Jenkins as a service
+  service: name="jenkins" state="started" enabled=Yes
+
+- name: Retrieve Jenkins admin password
+  command: cat /var/lib/jenkins/secrets/initialAdminPassword
+  register: jenkinsAdminPassword
+
+- name: Display Jenkins initial admin password "{{ jenkinsAdminPassword.stdout }}"
+  debug: var=jenkinsAdminPassword.stdout

@@ -1,0 +1,11 @@
+---
+# Installation of whole infrastructure
+- hosts:
+  - web
+
+  roles:
+    - httpd
+    - jenkins
+    - elasticsearch
+    - kibana
+    - logstash

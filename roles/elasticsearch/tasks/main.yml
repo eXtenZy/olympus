@@ -1,0 +1,19 @@
+---
+# tasks file for elasticsearch
+- name: Install selinux bindings
+  yum: name="libselinux-python" state="present"
+
+- name: Copy repository definition file
+  copy: src=elasticsearch.repo dest=/etc/yum.repos.d/elasticsearch.repo
+
+- name: Import Elasticsearch RPM key
+  rpm_key: state="present" key="https://packages.elastic.co/GPG-KEY-elasticsearch"
+
+- name: Install Java and Elasticsearch
+  yum: state="present" name="{{ item }}"
+  with_items:
+    - java-1.8.0-openjdk
+    - elasticsearch
+
+- name: Start and enable elasticsearch service
+  service: name="elasticsearch" state="started" enabled=Yes
