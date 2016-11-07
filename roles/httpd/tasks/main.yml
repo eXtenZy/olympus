@@ -1,7 +1,29 @@
 ---
 # tasks file for httpd
 - name: Install Apache httpd package
-  yum: name="httpd" state="present"
+  yum: name="{{ item }}" state="present"
+  with_items:
+    - httpd
+    - mod_ssl
+
+- name: Delete default configuration
+  file:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - /etc/httpd/conf.d/welcome.conf
+    - /etc/httpd/conf.d/README
+    - /etc/httpd/conf.d/userdir.conf
+    - /etc/httpd/conf.d/autoindex.conf
+
+- name: Generate configuration files
+  template:
+    src: "{{ item }}.conf.j2"
+    dest: "/etc/httpc/conf.d/{{ item }}.conf"
+  with_items:
+    - jenkins
+    - torrents
+    - tv
 
 - name: Start and enable httpd service
   service: name="httpd" state="started" enabled=Yes

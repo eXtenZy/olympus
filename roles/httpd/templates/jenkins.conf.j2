@@ -1,0 +1,20 @@
+<VirtualHost *:80>
+    ServerName jenkins.{{ domain }}
+    Redirect permanent / https://jenkins.{{ domain }}/
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName jenkins.{{ domain }}
+    ServerAdmin  webmaster@localhost
+
+    ProxyRequests       Off
+    ProxyPreserveHost   On
+    ProxyPass           /   http://hefaistos.{{ domain }}:32400/
+    ProxyPassReverse    /   http://hefaistos.{{ domain }}:32400/
+
+    RequestHeader set X-Forwarded-Proto "https"
+    RequestHeader set X-Forwarded-Port "443"
+
+    CustomLog /var/log/httpd/jenkins.{{ domain }}.log combined
+    ErrorLog /var/log/httpd/jenkins.{{ domain }}-error.log
+</VirtualHost>

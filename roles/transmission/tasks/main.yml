@@ -1,2 +1,20 @@
 ---
 # tasks file for transmission
+- name: Install packages
+  yum:
+    name: "{{ item }}"
+    state: "present"
+  with_items:
+    - transmission
+    - transmission-daemon
+
+- name: Generate transmission configuration file
+  template:
+    src: "settings.json.j2"
+    dest: "/var/lib/transmission/.config/transmission-daemon/settings.json"
+
+- name: Start and enable Transmission service
+  service:
+    name: "transmission-daemon"
+    state: "started"
+    enabled: yes

@@ -1,0 +1,14 @@
+<VirtualHost *:80>
+    ServerName tv.{{ domain }}
+    Redirect permanent / https://tv.{{ domain }}/
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName tv.{{ domain }}
+
+    ProxyPass / http://plex.{{ domain }}:32400/
+    ProxyPassReverse / http://plex.{{ domain }}:32400/
+
+    CustomLog /var/log/httpd/tv.{{ domain }}.log combined
+    ErrorLog /var/log/httpd/tv.{{ domain }}-error.log
+</VirtualHost>

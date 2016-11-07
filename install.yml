@@ -2,7 +2,6 @@
 # Installation of whole infrastructure
 - hosts:
   - web
-
   roles:
     - httpd
     - jenkins
