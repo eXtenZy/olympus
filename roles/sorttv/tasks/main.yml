@@ -1,2 +1,54 @@
 ---
 # tasks file for sorttv
+- name: Install needed packages
+  yum:
+    name: "{{ item }}"
+    state: "present"
+  with_items:
+    - perl
+    - perl-core
+    - perl-CPAN
+    - perl-App-cpanminus
+    - gcc
+    - expat-devel
+    - unzip
+
+- name: Install perl packages using CPAN
+  cpanm:
+    name: "{{ item }}"
+  with_items:
+    - "File::Copy::Recursive"
+    - "File::Glob"
+    - "LWP::Simple"
+    - "TVDB::API"
+    - "Getopt::Long"
+    - "Switch"
+    - "WWW::TheMovieDB"
+    - "JSON::Parse"
+    - "XML::Simple"
+
+- name: Download Sorttv script
+  get_url:
+    url: "http://downloads.sourceforge.net/project/sorttv/SortTV{{ sorttv_version }}.zip?r=&ts=1482881782&use_mirror=heanet"
+    dest: /opt/sorttv.zip
+
+- name: Unarchive sorttv
+  unarchive:
+    src: /opt/sorttv.zip
+    dest: /opt
+    remote_src: True
+
+- name: Ensure media folders are created
+  file:
+    name: "{{ item }}"
+    state: "directory"
+  with_items:
+    - "{{ unsorted_folder }}"
+    - "{{ movie_folder }}"
+    - "{{ music_folder }}"
+    - "{{ tv_folder }}"
+
+- name: Configure sorttv
+  template:
+    src: "templates/sorttv.conf.j2"
+    dest: "/opt/sorttv/sorttv.conf"

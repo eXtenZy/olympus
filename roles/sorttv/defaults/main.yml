@@ -1,2 +1,7 @@
 ---
 # defaults file for sorttv
+sorttv_version: "1.37"
+unsorted_folder: "/media/unsorted"
+tv_folder: "/media/tv"
+music_folder: "/media/music"
+movie_folder: "/media/movie"

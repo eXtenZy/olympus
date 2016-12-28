@@ -1,0 +1,13 @@
+- hosts:
+    - localhost
+
+  tasks:
+    - name: Display hostname
+      debug: msg="{{ item.reg }} {{ item.line }}"
+      with_items:
+        - reg: "1"
+          line: "a"
+        - reg: "2"
+          line: "b"
+        - reg: "3"
+          line: "c"

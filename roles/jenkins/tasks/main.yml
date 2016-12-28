@@ -3,8 +3,8 @@
 - name: Download jenkins repository definition
   get_url: url="http://pkg.jenkins-ci.org/redhat/jenkins.repo" dest="/etc/yum.repos.d/jenkins.repo"
 
-#- name: Install Jenkin repository key
-#  rpm_key: state="present" key="https://jenkins-ci.org/redhat/jenkins-ci.org.key"
+- name: Install Jenkin repository key
+  rpm_key: state="present" key="https://jenkins-ci.org/redhat/jenkins-ci.org.key"
 
 - name: Install Jenkins and Java
   yum: state="present" name="{{ item }}"

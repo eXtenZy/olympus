@@ -1,5 +1,25 @@
+[all]
+athena
+esxi
+dionis
+hefaistos
+
+[vms]
+athena
+dionis
+hefaistos
+
 [esxi]
-192.168.1.200
+esxi
 
 [web]
-192.168.1.157
+athena
+
+[jenkins]
+hefaistos
+
+[router]
+pfsense
+
+[test]
+192.168.1.172

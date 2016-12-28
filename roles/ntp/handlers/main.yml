@@ -1,0 +1,7 @@
+---
+# handlers file for ntp
+- name: restart ntp
+  service:
+    name: "ntpd"
+    state: "restarted"
+  when: ntp_enabled

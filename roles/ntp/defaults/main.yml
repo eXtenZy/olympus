@@ -1,0 +1,15 @@
+---
+# defaults file for ntp
+ntp_enabled: true
+ntp_timezone: Etc/GMT+2
+
+ntp_servers:
+  - "{{ groups.router.0 }} iburst"
+  - "0.ro.pool.ntp.org iburst"
+  - "1.ro.pool.ntp.org iburst"
+  - "2.ro.pool.ntp.org iburst"
+  - "3.ro.pool.ntp.org iburst"
+
+ntp_restrict:
+  - "127.0.0.1"
+  - "::1"

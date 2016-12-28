@@ -1,0 +1,28 @@
+---
+# tasks file for basic
+- name: Create user
+  user:
+    name: bobo
+    groups: wheel
+
+- name: Place SSH key
+  authorized_key:
+    user: bobo
+    key: "{{ lookup('file', 'bobo_key.pub') }}"
+    exclusive: yes
+
+- name: Remove keys for root user
+  authorized_key:
+    user: root
+    key: ""
+    exclusive: yes
+
+- name: Install basic packages
+  yum:
+    name: "{{ item }}"
+    state: "present"
+  with_items:
+    - nano
+    - wget
+    - bash-completion
+    - epel-release
