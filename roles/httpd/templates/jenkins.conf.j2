@@ -5,7 +5,7 @@
 
 <VirtualHost *:443>
     ServerName jenkins.{{ domain }}
-    ServerAdmin  webmaster@localhost
+    ServerAdmin  {{ admin_email }}
 
     SSLEngine on
     SSLCertificateFile {{ cert_file_path }}
@@ -17,11 +17,9 @@
     ProxyPreserveHost   On
     ProxyPass           /   http://hefaistos.{{ domain }}:8080/ nocanon
     ProxyPassReverse    /   http://hefaistos.{{ domain }}:8080/
-    ProxyPassReverse    /   https://jenkins.{{ domain }}/
 
     <Proxy *>
-        Order deny,allow
-        Allow from all
+        Require all granted
     </Proxy>
 
     RequestHeader set X-Forwarded-Proto "https"
