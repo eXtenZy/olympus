@@ -1,0 +1,6 @@
+---
+# Installation of web server
+- hosts:
+    - web
+  roles:
+    - httpd

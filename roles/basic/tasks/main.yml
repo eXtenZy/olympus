@@ -1,5 +1,16 @@
 ---
 # tasks file for basic
+- name: Install basic packages
+  yum:
+    name: "{{ item }}"
+    state: "present"
+  with_items:
+    - nano
+    - wget
+    - bash-completion
+    - epel-release
+    - libselinux-python
+
 - name: Create user
   user:
     name: bobo
@@ -17,12 +28,10 @@
     key: ""
     exclusive: yes
 
-- name: Install basic packages
-  yum:
-    name: "{{ item }}"
-    state: "present"
-  with_items:
-    - nano
-    - wget
-    - bash-completion
-    - epel-release
+- name: Enable passwordless sudo for users in wheel group
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%wheel\s*ALL='
+    line: '%wheel     ALL=(ALL)    NOPASSWD: ALL'
+    validate: 'visudo -cf %s'

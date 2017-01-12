@@ -5,6 +5,13 @@
   with_items:
     - httpd
     - mod_ssl
+    - rng-tools
+
+- name: Enable RNG tools for added entropy
+  service: name="rngd" state="started" enabled=Yes
+
+- name: Start and enable httpd service
+  service: name="httpd" state="started" enabled=Yes
 
 - name: Delete default configuration
   file:
@@ -16,14 +23,39 @@
     - /etc/httpd/conf.d/userdir.conf
     - /etc/httpd/conf.d/autoindex.conf
 
-- name: Generate configuration files
+- name: Copy base certificate
+  copy:
+    src: "{{ cert_name }}.crt"
+    dest: "{{ cert_file_path }}"
+    owner: "root"
+    group: "root"
+    mode: 0400
+
+- name: Copy private key for base certificate
+  copy:
+    src: "{{ cert_name }}.key"
+    dest: "{{ pkey_file_path }}"
+    owner: "root"
+    group: "root"
+    mode: 0400
+
+- name: Generate configuration file
+  template:
+    src: "httpd.conf.j2"
+    dest: "/etc/httpd/conf/httpd.conf"
+  notify:
+    - restart apache
+
+- name: Generate additional configuration files
   template:
     src: "{{ item }}.conf.j2"
-    dest: "/etc/httpc/conf.d/{{ item }}.conf"
+    dest: "/etc/httpd/conf.d/{{ item }}.conf"
   with_items:
+    - secure
+    - ssl
     - jenkins
     - torrents
     - tv
+  notify:
+    - restart apache
 
-- name: Start and enable httpd service
-  service: name="httpd" state="started" enabled=Yes

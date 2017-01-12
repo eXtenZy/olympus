@@ -9,8 +9,8 @@
 
     ProxyRequests       Off
     ProxyPreserveHost   On
-    ProxyPass           /   http://hefaistos.{{ domain }}:32400/
-    ProxyPassReverse    /   http://hefaistos.{{ domain }}:32400/
+    ProxyPass           /   http://hefaistos.{{ domain }}:8080/
+    ProxyPassReverse    /   http://hefaistos.{{ domain }}:8080/
 
     RequestHeader set X-Forwarded-Proto "https"
     RequestHeader set X-Forwarded-Port "443"

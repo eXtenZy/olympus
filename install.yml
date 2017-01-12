@@ -1,19 +1,13 @@
 ---
 # Installation of whole infrastructure
-#- hosts:
-#  - web
-#  roles:
-#    - httpd
-#    - jenkins
-#    - elasticsearch
-#    - kibana
-#    - logstash
-
 - hosts:
-  - test
+    - vms
   roles:
     - basic
     - sshd
     - ntp
-    - plex
-#    - sorttv
+
+- hosts:
+    - web
+  roles:
+    - httpd

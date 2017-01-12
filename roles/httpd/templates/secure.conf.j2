@@ -1,0 +1,25 @@
+# A web server that receives a HTTP-TRACE request answers this request by
+# mirroring whatever was sent to it. The problem is in addition, sensitive data
+# such as cookie-contents or authentication data may be sent in the header of
+# the response. This makes the HTTP-TRACE request a possible tool for so-called
+# cross-site scripting attacks (XSS) to gather such sensitive data. Under some
+# circumstances, a HTTP-TRACE request may be mapped on a HTTP-TRACK request,
+# so to be on the safe side also HTTP-TRACK should be blocked.
+
+TraceEnable off
+
+# However, best practice is to allow only those HTTP methods/verbs explicitly
+# needed. The examples presented below allow only those HTTP methods listed in
+# brackets and return an "403 - Access denied" error message for all other
+# requests.
+
+RewriteEngine on
+RewriteCond %{REQUEST_METHOD} !^(OPTIONS|GET|HEAD|POST|PUT|DELETE|CONNECT)$
+RewriteRule .* - [R=403]
+
+# No Apache version information is sent with header or footer
+# The following directive suppresses the sending of Apache version informa-
+# tion with the header and turns off footers:
+
+ServerTokens ProductOnly
+ServerSignature Off

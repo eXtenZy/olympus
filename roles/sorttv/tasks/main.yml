@@ -12,6 +12,7 @@
     - gcc
     - expat-devel
     - unzip
+    - rar
 
 - name: Install perl packages using CPAN
   cpanm:
