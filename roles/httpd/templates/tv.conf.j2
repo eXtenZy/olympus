@@ -5,6 +5,11 @@
 
 <VirtualHost *:443>
     ServerName tv.{{ domain }}
+    ServerAdmin  {{ admin_email }}
+
+    SSLEngine on
+    SSLCertificateFile {{ cert_file_path }}
+    SSLCertificateKeyFile {{ pkey_file_path }}
 
     ProxyPass / http://plex.{{ domain }}:32400/
     ProxyPassReverse / http://plex.{{ domain }}:32400/

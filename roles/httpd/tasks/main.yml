@@ -49,10 +49,25 @@
 - name: Generate additional configuration files
   template:
     src: "{{ item }}.conf.j2"
-    dest: "/etc/httpd/conf.d/{{ item }}.conf"
+    dest: "/etc/httpd/conf.d/00-{{ item }}.conf"
   with_items:
     - secure
     - ssl
+  notify:
+    - restart apache
+
+- name: Generate additional site configuration files
+  template:
+    src: "main.conf.j2"
+    dest: "/etc/httpd/conf.d/10-main.conf"
+  notify:
+    - restart apache
+
+- name: Generate additional site configuration files
+  template:
+    src: "{{ item }}.conf.j2"
+    dest: "/etc/httpd/conf.d/20-{{ item }}.conf"
+  with_items:
     - jenkins
     - torrents
     - tv

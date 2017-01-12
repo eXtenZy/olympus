@@ -4,11 +4,17 @@
 </VirtualHost>
 
 <VirtualHost *:443>
-
     ServerName torrents.{{ domain }}
+    ServerAdmin  {{ admin_email }}
+
+    SSLEngine on
+    SSLCertificateFile {{ cert_file_path }}
+    SSLCertificateKeyFile {{ pkey_file_path }}
 
     ProxyPass / http://dionis.{{ domain }}:9091/
     ProxyPassReverse / http://dionis.{{ domain }}:9091/
+
+    Header echo X-Transmission-Session-Id
 
     CustomLog /var/log/httpd/torrents.{{ domain }}.log combined
     ErrorLog /var/log/httpd/torrents.{{ domain }}-error.log

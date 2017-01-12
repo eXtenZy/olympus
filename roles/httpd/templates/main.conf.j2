@@ -1,0 +1,18 @@
+<VirtualHost *:80>
+    ServerName {{ domain }}
+    Redirect permanent / https://{{ domain }}/
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName {{ domain }}
+    ServerAdmin  {{ admin_email }}
+
+    DocumentRoot {{ document_root }}
+
+    SSLEngine on
+    SSLCertificateFile {{ cert_file_path }}
+    SSLCertificateKeyFile {{ pkey_file_path }}
+
+    CustomLog /var/log/httpd/{{ domain }}.log combined
+    ErrorLog /var/log/httpd/{{ domain }}-error.log
+</VirtualHost>

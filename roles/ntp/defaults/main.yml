@@ -1,7 +1,7 @@
 ---
 # defaults file for ntp
 ntp_enabled: true
-ntp_timezone: Etc/GMT+2
+ntp_timezone: Europe/Bucharest
 
 ntp_servers:
   - "{{ groups.router.0 }} iburst"
