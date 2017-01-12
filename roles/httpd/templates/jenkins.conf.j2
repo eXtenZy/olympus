@@ -7,10 +7,22 @@
     ServerName jenkins.{{ domain }}
     ServerAdmin  webmaster@localhost
 
+    SSLEngine on
+    SSLCertificateFile {{ cert_file_path }}
+    SSLCertificateKeyFile {{ pkey_file_path }}
+
+    AllowEncodedSlashes NoDecode
+
     ProxyRequests       Off
     ProxyPreserveHost   On
-    ProxyPass           /   http://hefaistos.{{ domain }}:8080/
+    ProxyPass           /   http://hefaistos.{{ domain }}:8080/ nocanon
     ProxyPassReverse    /   http://hefaistos.{{ domain }}:8080/
+    ProxyPassReverse    /   https://jenkins.{{ domain }}/
+
+    <Proxy *>
+        Order deny,allow
+        Allow from all
+    </Proxy>
 
     RequestHeader set X-Forwarded-Proto "https"
     RequestHeader set X-Forwarded-Port "443"
