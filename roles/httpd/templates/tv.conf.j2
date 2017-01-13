@@ -11,7 +11,7 @@
     SSLCertificateFile {{ cert_file_path }}
     SSLCertificateKeyFile {{ pkey_file_path }}
 
-    ProxyPass / http://plex.{{ domain }}:32400/
+    ProxyPass / http://plex.{{ domain }}:32400/ Keepalive=On
     ProxyPassReverse / http://plex.{{ domain }}:32400/
 
     CustomLog /var/log/httpd/tv.{{ domain }}.log combined

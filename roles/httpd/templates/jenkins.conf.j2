@@ -15,7 +15,7 @@
 
     ProxyRequests       Off
     ProxyPreserveHost   On
-    ProxyPass           /   http://hefaistos.{{ domain }}:8080/ nocanon
+    ProxyPass           /   http://hefaistos.{{ domain }}:8080/ nocanon Keepalive=On
     ProxyPassReverse    /   http://hefaistos.{{ domain }}:8080/
 
     <Location />
