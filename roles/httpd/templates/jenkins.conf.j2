@@ -18,9 +18,11 @@
     ProxyPass           /   http://hefaistos.{{ domain }}:8080/ nocanon
     ProxyPassReverse    /   http://hefaistos.{{ domain }}:8080/
 
-    <Proxy *>
-        Require all granted
-    </Proxy>
+    <Location />
+        <RequireAny>
+            Require ip 192.168.1.0/24
+        </RequireAny>
+    </Location>
 
     RequestHeader set X-Forwarded-Proto "https"
     RequestHeader set X-Forwarded-Port "443"

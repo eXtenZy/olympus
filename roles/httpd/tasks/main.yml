@@ -10,9 +10,6 @@
 - name: Enable RNG tools for added entropy
   service: name="rngd" state="started" enabled=Yes
 
-- name: Start and enable httpd service
-  service: name="httpd" state="started" enabled=Yes
-
 - name: Delete default configuration
   file:
     name: "{{ item }}"
@@ -74,3 +71,5 @@
   notify:
     - restart apache
 
+- name: Start and enable httpd service
+  service: name="httpd" state="started" enabled=Yes
