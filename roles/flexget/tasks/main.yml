@@ -1,2 +1,29 @@
 ---
 # tasks file for flexget
+- name: Install needed packages on system
+  yum:
+    name: "{{ item }}"
+    state: "present"
+  with_items:
+    - python-pip
+
+- name: Install global python packages
+  pip:
+    name: "{{ item }}"
+    state: "present"
+  with_items:
+    - virtualenv
+
+- name: Install flexget and dependencies in virtualenv
+  pip:
+    name: "{{ item }}"
+    state: "present"
+    virtualenv: "flexget"
+  with_items:
+    - transmissionrpc
+    - flexget
+
+- name: Generate flexget config file
+  template:
+    src: "config.yml.j2"
+    dest: "future config location"

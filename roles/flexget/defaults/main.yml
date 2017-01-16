@@ -1,2 +1,9 @@
 ---
 # defaults file for flexget
+transmission_host: 'localhost'
+transmission_port: '9091'
+transmission_user: 'demo'
+transmission_pass: 'demo'
+
+trakt_user: 'demo'
+trakt_pass: 'demo'
