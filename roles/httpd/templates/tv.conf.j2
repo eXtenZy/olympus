@@ -7,12 +7,27 @@
     ServerName tv.{{ domain }}
     ServerAdmin  {{ admin_email }}
 
+    LimitRequestBody 512000
+    Header set X-XSS-Protection "1; mode=block"
+    Timeout 60
+
     SSLEngine on
     SSLCertificateFile {{ cert_file_path }}
     SSLCertificateKeyFile {{ pkey_file_path }}
 
+    <Location /:/websockets/notifications>
+        ProxyPass wss://plex.{{ domain }}:32400/:/websockets/notifications
+        ProxyPassReverse wss://plex.{{ domain }}:32400/:/websockets/notifications
+    </Location>
+
     ProxyPass / http://plex.{{ domain }}:32400/ Keepalive=On
     ProxyPassReverse / http://plex.{{ domain }}:32400/
+
+    RewriteEngine on
+    RewriteCond %{REQUEST_URI} !^/web
+    RewriteCond %{HTTP:X-Plex-Device} ^$
+    RewriteCond %{REQUEST_METHOD} !^(OPTIONS)$
+    RewriteRule ^/$ /web/$1 [R,L]
 
     CustomLog /var/log/httpd/tv.{{ domain }}.log combined
     ErrorLog /var/log/httpd/tv.{{ domain }}-error.log
