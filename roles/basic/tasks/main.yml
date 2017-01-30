@@ -11,6 +11,9 @@
     - epel-release
     - libselinux-python
 
+- name: Harden OS
+  include: os_cert_measures.yml
+
 - name: Create user
   user:
     name: bobo
