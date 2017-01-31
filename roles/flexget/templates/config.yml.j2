@@ -1,10 +1,10 @@
 templates:
   tv_shows:
     transmission:
-      host: localhost
-      port: 12345
-      username: djnitehawk
-      password: YOUR_PASSWORD_GOES_HERE
+      host: {{ transmission_host }}
+      port: {{ transmission_port }}
+      username: {{ transmission_user }}
+      password: {{ trasnmission_pass }}
       addpaused: no
     regexp:
       reject:
@@ -12,58 +12,23 @@ templates:
         - AFG
     configure_series:
       settings:
-        quality: 720p+
+        qualities:
+          - 720p webdl
+          - hdtv <720p
         propers: no
       from:
-        trakt_list:
-          username: YOUR_THETVDB_ACCOUNT_ID
-          list: 'Watchlist'
-          type: 'shows'
-    exec: curl -s -d "email=MY_EMAIL@EMAIL_DOMAIN.COM" -d "&notification[from_screen_name](/from_screen_name)=FlexGet" -d "&notification[message](/message)={{title}}" http://boxcar.io/devices/providers/MY_BOXCAR_API_KEY/notifications
-
-  movie:
-    transmission:
-      host: localhost
-      port: 12345
-      username: djnitehawk
-      password: YOUR_PASSWORD_GOES_HERE
-      addpaused: no
-    movie_queue: yes
-    seen_movies: strict
-    proper_movies: no
-    exec: curl -s -d "email=MY_EMAIL@EMAIL_DOMAIN.COM" -d "&notification[from_screen_name](/from_screen_name)=FlexGet" -d "&notification[message](/message)={{title}}" http://boxcar.io/devices/providers/MY_BOXCAR_API_KEY/notifications
+#        trakt_list:
+#          username: {{ trakt_user }}
+#          account: {{ trakt_account }}
+#          list: Watchlist
+#          type: shows
+        thetvdb_list:
+          username: {{ tvdb_user }}
+          account_id: {{ tvdb_id }}
 
 tasks:
   lookup_shows:
     rss:
-      url:
+      url: "https://thepiratebay.org/rss/top100/200"
       all_entries: no
     template: tv_shows
-    priority: 1
-
-  imdb-watchlist:
-    imdb_list:
-      username: YOUR_IMDB_USERNAME
-      password: YOUR_IMDB_PASSWORD
-      list: watchlist
-    accept_all: yes
-    queue_movies:
-      quality: dvdrip|bluray xvid|divx <720p
-    priority: 2
-
-  hd-watchlist:
-    imdb_list:
-      username: YOUR_IMDB_USERNAME
-      password: YOUR_IMDB_PASSWORD
-      list: YOUR_IMDB_HDWATCHLIST_ID
-    accept_all: yes
-    queue_movies:
-      quality: dvdrip|bluray xvid|divx|h264 720p
-    priority: 3
-
-  ipt-movies:
-    rss:
-      url: http://www.XXXXX.com/torrents/rss?download;l48;l62;l7;l77;u=XXXXX;tp=XXXXX
-      all_entries: no
-    template: movie
-    priority: 4

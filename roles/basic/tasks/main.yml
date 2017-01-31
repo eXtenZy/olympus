@@ -12,18 +12,20 @@
     - libselinux-python
 
 - name: Harden OS
-  include: os_cert_measures.yml
+  include: os_hardning.yml
 
 - name: Create user
   user:
-    name: bobo
-    groups: wheel
+    name: "{{ item.name }}"
+    groups: "{{ item.groups|join(',') }}"
+  with_items: "{{ users }}"
 
 - name: Place SSH key
   authorized_key:
-    user: bobo
-    key: "{{ lookup('file', 'bobo_key.pub') }}"
+    user: "{{ item.name }}"
+    key: "{{ item.ssh_key }}"
     exclusive: yes
+  with_items: "{{ users }}"
 
 - name: Remove keys for root user
   authorized_key:

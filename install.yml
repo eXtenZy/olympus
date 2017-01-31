@@ -2,6 +2,11 @@
 # Installation of whole infrastructure
 - hosts:
     - vms
+  pre_tasks:
+    - name: Import variables
+      include_vars:
+        dir: 'vars'
+
   roles:
     - basic
     - sshd
@@ -9,5 +14,11 @@
 
 - hosts:
     - web
+
+  pre_tasks:
+    - name: Import variables
+      include_vars:
+        dir: 'vars'
+
   roles:
     - httpd

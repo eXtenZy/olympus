@@ -10,8 +10,8 @@
     SSLCertificateFile {{ cert_file_path }}
     SSLCertificateKeyFile {{ pkey_file_path }}
 
-    ProxyPass / http://dionis.{{ domain }}:9091/
-    ProxyPassReverse / http://dionis.{{ domain }}:9091/
+    ProxyPass / http://{{ transmission_host }}.{{ domain }}:{{ transmission_port }}/
+    ProxyPassReverse / http://{{ transmission_host }}.{{ domain }}:{{ transmission_port }}/
 
     Header echo X-Transmission-Session-Id
 

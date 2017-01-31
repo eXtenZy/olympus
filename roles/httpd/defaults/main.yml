@@ -1,14 +1,11 @@
 ---
 # defaults file for httpd
 domain: "extenzy.dyndns.org"
-admin_email: "bobo@naicum.ro"
 
 document_root: "/var/www/html"
 
 service_user: "apache"
 service_group: "apache"
-
-cert_name: "extenzy_dyndns_org"
 
 cert_file_path: "/etc/pki/tls/certs/{{ cert_name }}.crt"
 pkey_file_path: "/etc/pki/tls/private/{{ cert_name }}.key"
