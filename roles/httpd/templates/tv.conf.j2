@@ -5,29 +5,32 @@
 
 <VirtualHost *:443>
     ServerName tv.{{ domain }}
-    ServerAdmin  {{ admin_email }}
 
-    LimitRequestBody 512000
-    Header set X-XSS-Protection "1; mode=block"
+    RewriteEngine On
+    RewriteCond %{THE_REQUEST} !HTTP/1.1$
+    RewriteRule .* - [F]
+
     Timeout 60
+    LimitRequestBody 512000
 
     SSLEngine on
+    SSLProxyEngine On
     SSLCertificateFile {{ cert_file_path }}
     SSLCertificateKeyFile {{ pkey_file_path }}
 
     <Location /:/websockets/notifications>
-        ProxyPass wss://plex.{{ domain }}:32400/:/websockets/notifications
+        ProxyPass wss://plex.{{ domain }}:32400/:/websockets/notifications Keepalive=On
         ProxyPassReverse wss://plex.{{ domain }}:32400/:/websockets/notifications
     </Location>
 
+    Header set X-XSS-Protection "1; mode=block"
+    Header always set X-Frame-Options DENY
+    RequestHeader set Front-End-Https "On"
+
+    ProxyRequests Off
+    ProxyPreserveHost On
     ProxyPass / http://plex.{{ domain }}:32400/ Keepalive=On
     ProxyPassReverse / http://plex.{{ domain }}:32400/
-
-    RewriteEngine on
-    RewriteCond %{REQUEST_URI} !^/web
-    RewriteCond %{HTTP:X-Plex-Device} ^$
-    RewriteCond %{REQUEST_METHOD} !^(OPTIONS)$
-    RewriteRule ^/$ /web/$1 [R,L]
 
     CustomLog /var/log/httpd/tv.{{ domain }}.log combined
     ErrorLog /var/log/httpd/tv.{{ domain }}-error.log

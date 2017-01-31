@@ -5,7 +5,6 @@
 
 <VirtualHost *:443>
     ServerName jenkins.{{ domain }}
-    ServerAdmin  {{ admin_email }}
 
     SSLEngine on
     SSLCertificateFile {{ cert_file_path }}
