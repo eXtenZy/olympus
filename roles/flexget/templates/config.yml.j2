@@ -17,18 +17,25 @@ templates:
           - hdtv <720p
         propers: no
       from:
-#        trakt_list:
-#          username: {{ trakt_user }}
-#          account: {{ trakt_account }}
-#          list: Watchlist
-#          type: shows
+{% if use_trakt %}
+        trakt_list:
+          username: {{ trakt_user }}
+          account: {{ trakt_account }}
+          list: Watchlist
+          type: shows
+{% endif %}
+{% if use_tvdb %}
         thetvdb_list:
           username: {{ tvdb_user }}
           account_id: {{ tvdb_id }}
+{% endif %}
 
 tasks:
-  lookup_shows:
+{% for item in rss_urls %}
+  {{ item.name }}:
     rss:
-      url: "https://thepiratebay.org/rss/top100/200"
+      url: "{{ item.url }}"
       all_entries: no
+      ascii: yes
     template: tv_shows
+{% endfor %}

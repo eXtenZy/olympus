@@ -7,18 +7,27 @@
   with_items:
     - python-pip
 
+- name: Create flexget user
+  user:
+    name: "flexget"
+    home: "{{ flexget_home }}"
+    system: yes
+
 - name: Install global python packages
   pip:
     name: "{{ item }}"
     state: "present"
+    extra_args: "--upgrade"
   with_items:
+    - pip
     - virtualenv
+    - virtualenvwrapper
 
 - name: Install flexget and dependencies in virtualenv
   pip:
     name: "{{ item }}"
     state: "present"
-    virtualenv: "flexget"
+    virtualenv: "{{ flexget_home }}"
   with_items:
     - transmissionrpc
     - flexget
@@ -26,4 +35,12 @@
 - name: Generate flexget config file
   template:
     src: "config.yml.j2"
-    dest: "future config location"
+    dest: "{{ flexget_home }}/config.yml"
+
+- name: Update permissions for flexget
+  file:
+    path: "{{ flexget_home }}"
+    owner: "jenkins"
+    group: "jenkins"
+    state: "directory"
+    recurse: yes

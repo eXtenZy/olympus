@@ -1,2 +1,15 @@
 ---
 # defaults file for flexget
+flexget_home: /opt/flexget
+use_trakt: no
+use_tvdb: yes
+use_plex: no
+rss_urls:
+  - name: piratebay
+    url: https://thepiratebay.org/rss/top100/200
+  - name: kickasstorrents
+    url: http://kickasstorrents.to/tv/?rss=1
+  - name: showrss
+    url: http://showrss.info/feeds/all.rss
+  - name: extratorrent
+    url: http://extratorrent.cc/rss.xml?cid=8

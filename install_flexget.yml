@@ -1,0 +1,12 @@
+---
+# Installation of flexget
+- hosts:
+    - dionis
+
+  pre_tasks:
+    - name: Import variables
+      include_vars:
+        dir: 'vars'
+
+  roles:
+    - flexget

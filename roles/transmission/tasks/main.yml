@@ -8,6 +8,12 @@
     - transmission
     - transmission-daemon
 
+- name: Start and enable Transmission service
+  service:
+    name: "transmission-daemon"
+    state: "stopped"
+  ignore_errors: yes
+
 - name: Generate transmission configuration file
   template:
     src: "settings.json.j2"
